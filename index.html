@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNC Tool Manager - Управление инструментами ЧПУ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-tools"></i> CNC Tool Manager</h1>
+                <p>Система управления инструментами станков ЧПУ</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Search and Filters -->
+            <section class="search-section">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Поиск по инструменту или станку...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Все</button>
+                        <button class="filter-btn" data-filter="фреза">Фрезы</button>
+                        <button class="filter-btn" data-filter="сверло">Сверла</button>
+                        <button class="filter-btn" data-filter="резьбофреза">Резьбофрезы</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Tool Section -->
+            <section class="add-tool-section">
+                <button class="add-tool-btn" id="addToolBtn">
+                    <i class="fas fa-plus"></i>
+                    Добавить инструмент
+                </button>
+            </section>
+
+            <!-- Tools Grid -->
+            <section class="tools-grid" id="toolsGrid">
+                <!-- Tools will be dynamically inserted here -->
+            </section>
+        </main>
+
+        <!-- Modal for Adding/Editing Tools -->
+        <div class="modal" id="toolModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Добавить инструмент</h2>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <form class="tool-form" id="toolForm">
+                    <div class="form-group">
+                        <label for="toolName">Название инструмента *</label>
+                        <input type="text" id="toolName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toolType">Тип инструмента *</label>
+                        <select id="toolType" required>
+                            <option value="">Выберите тип</option>
+                            <option value="фреза">Фреза</option>
+                            <option value="сверло">Сверло</option>
+                            <option value="резьбофреза">Резьбофреза</option>
+                            <option value="другое">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="machineName">Станок *</label>
+                        <input type="text" id="machineName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toolDiameter">Диаметр (мм)</label>
+                        <input type="number" id="toolDiameter" step="0.1" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toolLength">Длина (мм)</label>
+                        <input type="number" id="toolLength" step="0.1" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toolPosition">Позиция в станке</label>
+                        <input type="text" id="toolPosition" placeholder="Например: T01, T02, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toolNotes">Примечания</label>
+                        <textarea id="toolNotes" rows="3" placeholder="Дополнительная информация об инструменте..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" id="cancelBtn">Отмена</button>
+                        <button type="submit" class="btn-save">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="modal" id="confirmModal">
+            <div class="modal-content confirm-modal">
+                <div class="modal-header">
+                    <h2>Подтверждение</h2>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmMessage">Вы уверены?</p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="confirmCancel">Отмена</button>
+                    <button type="button" class="btn-delete" id="confirmDelete">Удалить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <i class="fas fa-tools"></i>
+            <h3>Нет добавленных инструментов</h3>
+            <p>Добавьте первый инструмент, чтобы начать работу с системой</p>
+            <button class="add-tool-btn" id="emptyStateAddBtn">
+                <i class="fas fa-plus"></i>
+                Добавить первый инструмент
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Загрузка...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
